@@ -10,31 +10,33 @@ export const useFFmpeg = () => {
 
   useEffect(() => {
     const load = async () => {
-      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
       const ffmpeg = ffmpegRef.current;
 
       try {
+        if (typeof SharedArrayBuffer === 'undefined') {
+          throw new Error('SharedArrayBuffer is not supported. Please use Chrome, Firefox, or Edge.');
+        }
+
         ffmpeg.on('log', ({ message }) => {
-          console.log(message);
+          console.log('[FFmpeg]', message);
         });
 
-        setLoadProgress(10);
+        setLoadProgress(25);
 
-        const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
-        setLoadProgress(30);
-
-        const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
-        setLoadProgress(50);
+        // Load from same origin (files are copied to public/ at build time)
+        // toBlobURL is used so the Worker can import the module correctly
+        const coreURL = await toBlobURL('/ffmpeg-core.js', 'text/javascript');
+        setLoadProgress(60);
 
         await ffmpeg.load({
           coreURL,
-          wasmURL,
+          wasmURL: '/ffmpeg-core.wasm',
         });
 
         setLoadProgress(100);
         setLoaded(true);
       } catch (err) {
-        setError(err.message);
+        setError(err.message || 'Unknown error loading FFmpeg');
         console.error('Failed to load FFmpeg:', err);
       }
     };

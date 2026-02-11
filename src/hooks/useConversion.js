@@ -7,6 +7,8 @@ export const useConversion = (ffmpeg) => {
   const [isConverting, setIsConverting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
+  const [gifUrl, setGifUrl] = useState(null);
+  const [gifFilename, setGifFilename] = useState(null);
 
   const convertToGif = useCallback(async (file, quality = 'medium') => {
     if (!ffmpeg) {
@@ -49,9 +51,12 @@ export const useConversion = (ffmpeg) => {
       // Read output file
       const data = await ffmpeg.readFile('output.gif');
 
-      // Create blob and trigger download
+      // Create blob, store preview URL, and trigger download
       const blob = new Blob([data.buffer], { type: 'image/gif' });
       const filename = file.name.replace(/\.[^/.]+$/, '') + '.gif';
+      const url = URL.createObjectURL(blob);
+      setGifUrl(url);
+      setGifFilename(filename);
       downloadFile(blob, filename);
 
       // Cleanup
@@ -69,10 +74,22 @@ export const useConversion = (ffmpeg) => {
     }
   }, [ffmpeg]);
 
+  const clearGif = useCallback(() => {
+    setGifUrl(prev => {
+      if (prev) URL.revokeObjectURL(prev);
+      return null;
+    });
+    setGifFilename(null);
+    setProgress(0);
+  }, []);
+
   return {
     convertToGif,
     isConverting,
     progress,
     error,
+    gifUrl,
+    gifFilename,
+    clearGif,
   };
 };

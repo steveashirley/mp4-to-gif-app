@@ -345,6 +345,43 @@ body {
   opacity: 0.7;
 }
 
+/* GIF Result Component */
+.gif-result {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gif-result h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--neutral-900);
+  margin-bottom: 16px;
+}
+
+.gif-preview {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.gif-result-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gif-filename {
+  font-size: 14px;
+  color: var(--neutral-700);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
   .app-container {

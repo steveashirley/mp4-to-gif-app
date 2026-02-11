@@ -7,13 +7,14 @@ import { PreviewPane } from './components/PreviewPane';
 import { ConversionControls } from './components/ConversionControls';
 import { ProgressBar } from './components/ProgressBar';
 import { ErrorMessage } from './components/ErrorMessage';
+import { GifResult } from './components/GifResult';
 
 function App() {
   const [videoFile, setVideoFile] = useState(null);
   const [quality, setQuality] = useState('medium');
 
   const { ffmpeg, loaded, loadProgress, error: ffmpegError } = useFFmpeg();
-  const { convertToGif, isConverting, progress, error: conversionError } = useConversion(ffmpeg);
+  const { convertToGif, isConverting, progress, error: conversionError, gifUrl, gifFilename, clearGif } = useConversion(ffmpeg);
 
   const handleConvert = () => {
     if (videoFile) {
@@ -23,6 +24,12 @@ function App() {
 
   const handleClear = () => {
     setVideoFile(null);
+    setQuality('medium');
+  };
+
+  const handleNewFile = (file) => {
+    clearGif();
+    setVideoFile(file);
     setQuality('medium');
   };
 
@@ -43,11 +50,11 @@ function App() {
           />
         )}
 
-        {loaded && !videoFile && !isConverting && (
+        {loaded && !videoFile && !isConverting && !gifUrl && (
           <FileUpload onFileSelect={setVideoFile} />
         )}
 
-        {loaded && videoFile && !isConverting && (
+        {loaded && videoFile && !isConverting && !gifUrl && (
           <>
             <PreviewPane file={videoFile} />
             <ConversionControls
@@ -65,6 +72,13 @@ function App() {
             progress={progress}
             label="Converting..."
           />
+        )}
+
+        {gifUrl && (
+          <>
+            <GifResult gifUrl={gifUrl} gifFilename={gifFilename} />
+            <FileUpload onFileSelect={handleNewFile} />
+          </>
         )}
 
         {error && <ErrorMessage message={error} />}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { useFFmpeg } from './hooks/useFFmpeg';
 import { useConversion } from './hooks/useConversion';
 import { FileUpload } from './components/FileUpload';
@@ -72,6 +73,7 @@ function App() {
       <footer className="app-footer">
         <p>All processing happens in your browser. Files never leave your device.</p>
       </footer>
+      <Analytics />
     </div>
   );
 }

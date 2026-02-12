@@ -8,6 +8,7 @@ import { ConversionControls } from './components/ConversionControls';
 import { ProgressBar } from './components/ProgressBar';
 import { ErrorMessage } from './components/ErrorMessage';
 import { GifResult } from './components/GifResult';
+import { DonateBanner } from './components/DonateBanner';
 
 function App() {
   const [videoFile, setVideoFile] = useState(null);
@@ -77,6 +78,7 @@ function App() {
         {gifUrl && (
           <>
             <GifResult gifUrl={gifUrl} gifFilename={gifFilename} />
+            <DonateBanner />
             <FileUpload onFileSelect={handleNewFile} />
           </>
         )}

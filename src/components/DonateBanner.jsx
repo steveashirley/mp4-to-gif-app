@@ -3,9 +3,9 @@ import { useState } from 'react';
 // Replace these placeholder URLs with your real Stripe Payment Links.
 // Create 3 links in the Stripe Dashboard as fixed one-time prices: $3, $5, $10.
 const PAYMENT_LINKS = {
-  3:  'https://buy.stripe.com/REPLACE_WITH_$3_LINK',
-  5:  'https://buy.stripe.com/REPLACE_WITH_$5_LINK',
-  10: 'https://buy.stripe.com/REPLACE_WITH_$10_LINK',
+  3:  'https://buy.stripe.com/fZuaEWcj9eg04yH0Kj73G01',
+  5:  'https://buy.stripe.com/dRm6oG2Iz8VGc198cL73G02',
+  10: 'https://buy.stripe.com/3cIaEW3MDc7S7KT3Wv73G00',
 };
 
 export function DonateBanner() {
